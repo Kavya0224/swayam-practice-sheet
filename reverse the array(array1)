@@ -1,0 +1,12 @@
+void reverseArray(vector<int> &arr , int m) {
+    int st=m+1; //start pointer
+    int end=arr.size()-1; // end pointer
+    // swap element from start idx to end
+    while(st<end){
+        int temp=arr[st];
+        arr[st]=arr[end];
+        arr[end]=temp;
+        st++;
+        end--;
+    }
+}
