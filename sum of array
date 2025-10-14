@@ -1,0 +1,15 @@
+class Solution {
+public:
+    // Helper function to calculate sum recursively
+    int helper(vector<int>& arr, int sum, int n) {
+        if (n == -1) return sum; // Base case: if index is -1, return accumulated sum
+        sum += arr[n];           // Add current element to sum
+        return helper(arr, sum, n - 1); // Recursive call with next index
+    }
+
+    // Main function to initiate recursion
+    int arraySum(vector<int>& arr) {
+        int n = arr.size() - 1;         // Start from the last index
+        return helper(arr, 0, n);       // Call helper with initial sum 0
+    }
+};
