@@ -16,7 +16,7 @@ public:
             // If the target is greater, move down to the next row
             if (target > cur) row++;
 
-            // If the target is smaller, move left to the previous column
+            // If the target is smalreturnler, move left to the previous column
             else col--;
         }
 
