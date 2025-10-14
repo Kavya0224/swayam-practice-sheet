@@ -1,0 +1,23 @@
+class Solution {
+public:
+    // Recursive function to compute power: n^temp
+    int helper(int n, int temp) {
+        if (temp == 0) return 1; // Base case: n^0 = 1
+        return n * helper(n, temp - 1);
+    }
+
+    // Function to reverse the digits of an integer
+    int reverseNumber(int n) {
+        int rev = 0;
+        while (n > 0) {
+            rev = rev * 10 + n % 10;
+            n /= 10;
+        }
+        return rev;
+    }
+
+    int reverseExponentiation(int n) {
+        int temp = reverseNumber(n);  // Reverse the digits of n
+        return helper(n, temp);       // Return n ^ reversed(n)
+    }
+};
