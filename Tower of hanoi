@@ -1,0 +1,13 @@
+class Solution {
+  public:
+    int towerOfHanoi(int n, int from, int to, int aux) {
+        return (long long)(pow(2, n)) - 1;
+    }
+};
+void towerOfHanoisteps(int n, int from, int to, int aux) {
+        if (n == 0) return;
+
+        towerOfHanoi(n - 1, from, aux, to);
+        cout << "Move disk " << n << " from rod " << from << " to rod " << to << endl;
+        towerOfHanoi(n - 1, aux, to, from);
+    }
