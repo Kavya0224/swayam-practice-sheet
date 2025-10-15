@@ -1,0 +1,22 @@
+vector<int> Smallestonleft(int arr[], int n)
+{
+    // Complete the function
+    vector<int> ans;
+
+    for (int i = 0; i < n; i++) {
+
+        int currAns = -1;
+
+        // Loop to find the maximum smallest
+        // number before the element arr[i]
+        for (int j = i - 1; j >= 0; j--) {
+            if (arr[j] > currAns && arr[j] < arr[i]) {
+                currAns = arr[j];
+            }
+        }
+
+        ans.push_back(currAns);
+    }
+
+    return ans;
+}
