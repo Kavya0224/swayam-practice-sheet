@@ -1,0 +1,25 @@
+// Definition for singly-linked list node
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
+
+// Function to search for a value in the linked list
+// Returns the index (0-based) if found, otherwise returns -1
+int searchElement(ListNode* head, int target) {
+    int index = 0;
+    ListNode* current = head;
+
+    // Traverse the list until end or element is found
+    while (current != nullptr) {
+        if (current->val == target) {
+            return index;  // Found target, return index
+        }
+        current = current->next;
+        index++;
+    }
+
+    return -1; // Element not found
+}
