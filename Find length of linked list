@@ -1,0 +1,20 @@
+class Solution {
+  public:
+    int getCount(Node* head) {
+        // Initialize count to 0
+        int ct = 0;
+
+        // Create a temporary pointer to traverse the list
+        Node* temp = head;
+
+        // Traverse the linked list until the last node
+        // Note: loop condition checks temp->next, so it stops at the last node
+        while (temp->next) {
+            temp = temp->next;  // Move to next node
+            ct++;               // Increment count for each node visited (except the head)
+        }
+
+        // Since loop stops at last node, add 1 to include head node in count
+        return ct + 1;
+    }
+};
