@@ -1,0 +1,39 @@
+class Solution {
+  public:
+    int evaluatePostfix(vector<string>& arr) {
+         stack<int> s;
+
+    for (auto token : arr) {
+        if (token == "+" || token == "-" || token == "*" || token == "/" || token == "^") {
+            // Operator: pop two operands
+            int b = s.top(); s.pop();
+            int a = s.top(); s.pop();
+            int res;
+
+            if (token == "+") {
+                res = a + b;
+            } else if (token == "-") {
+                res = a - b;
+            } else if (token == "*") {
+                res = a * b;
+            } else if (token == "/") {
+                // Floor division
+                if (a * b < 0 && a % b != 0)
+                    res = a / b - 1;  // Adjust for floor division in negative case
+                else
+                    res = a / b;
+            } else if (token == "^") {
+                // pow returns double, cast to int
+                res = (int)pow(a, b);
+            }
+
+            s.push(res);
+        } else {
+            // Operand: convert to int and push
+            s.push(stoi(token));
+        }
+    }
+
+    return s.top();
+    }
+};
