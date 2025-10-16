@@ -1,0 +1,55 @@
+class myQueue {
+
+    // Array to store queue elements.
+    int *arr;
+
+    // Maximum number of elements the queue can hold.
+    int capacity;
+
+    // Current number of elements in the queue.
+    int size;
+
+  public:
+    myQueue(int n) {
+        capacity = n;
+        arr = new int[capacity];
+        size = 0;
+    }
+
+    bool isEmpty() { return size == 0; }
+
+    bool isFull() { return size == capacity; }
+
+    // Adds an element x at the rear of the queue.
+    void enqueue(int x) {
+        arr[size] = x;
+        size++;
+    }
+
+    // Removes the front element of the queue.
+    void dequeue() {
+        if (isEmpty()) {
+            return;
+        }
+        for (int i = 1; i < size; i++) {
+            arr[i - 1] = arr[i];
+        }
+        size--;
+    }
+
+    // Returns the front element of the queue.
+    int getFront() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return arr[0];
+    }
+
+    // Return the last element of queue
+    int getRear() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return arr[size - 1];
+    }
+};
