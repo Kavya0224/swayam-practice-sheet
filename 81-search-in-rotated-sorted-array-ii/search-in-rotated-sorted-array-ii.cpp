@@ -4,16 +4,13 @@ public:
     bool search(vector<int>& nums, int target) {
         int st = 0;
         int end = nums.size() - 1;
-
         // Perform modified binary search
         while (st <= end) {
             int mid = st + (end - st) / 2;
-
             // If the target is found at mid, return true
             if (nums[mid] == target) {
                 return true;
             }
-
             // If duplicates make it unclear which side is sorted, move the start pointer by one
             if (nums[mid] == nums[st]) {
                 st++;
