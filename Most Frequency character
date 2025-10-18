@@ -1,0 +1,31 @@
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    char getMaxOccuringChar(string& s) {
+        unordered_map<char, int> m;
+
+        // Count frequency of each character
+        for (char c : s) {
+            m[c]++;
+        }
+
+        // Iterate from 'a' to 'z' to ensure lexicographical tie-breaking
+        char maxChar = '\0';
+        int maxFreq = 0;
+
+        for (char c = 'a'; c <= 'z'; ++c) {
+            if (m[c] > maxFreq) {
+                maxFreq = m[c];
+                maxChar = c;
+            }
+        }
+
+       
+
+        return maxChar;
+    }
+};
