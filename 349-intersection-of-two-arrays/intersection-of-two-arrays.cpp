@@ -1,28 +1,21 @@
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
 class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        sort(nums1.begin(), nums1.end()); // Sort first array
-        sort(nums2.begin(), nums2.end()); // Sort second array
-        int i = 0, j = 0;
-        vector<int> ans; // Store unique intersection elements
+        unordered_set<int> set1(nums1.begin(), nums1.end());  // Store unique elements from nums1
+        unordered_set<int> resultSet;
 
-        while(i < nums1.size() && j < nums2.size()) {
-            if(nums1[i] == nums2[j]) {
-                // Add to answer if not already added
-                if(ans.empty() || ans.back() != nums1[i]) {
-                    ans.push_back(nums1[i]);
-                }
-                i++;
-                j++;
-            }
-            else if(nums1[i] < nums2[j]) {
-                i++; // Move pointer of smaller element
-            }
-            else {
-                j++; // Move pointer of smaller element
+        // Check if elements in nums2 exist in set1
+        for (int num : nums2) {
+            if (set1.count(num)) {
+                resultSet.insert(num); // Set ensures uniqueness
             }
         }
 
-        return ans;
+        // Convert result set to vector
+        return vector<int>(resultSet.begin(), resultSet.end());
     }
 };
