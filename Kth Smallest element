@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int kthSmallest(vector<int> &nums, int k) {
+        // Max-heap to store the k smallest elements seen so far
+        priority_queue<int> pq;
+
+        // Iterate through all elements in the input array
+        for (int i = 0; i < nums.size(); i++) {
+            pq.push(nums[i]);  // Push the current element into the max-heap
+
+            // If the heap size exceeds k, remove the largest element
+            // This ensures that only the k smallest elements remain in the heap
+            if (pq.size() > k) {
+                pq.pop();  // Remove the top (largest among the k+1 elements)
+            }
+        }
+
+        // The top of the max-heap is the k-th smallest element
+        return pq.top();
+    }
+};
