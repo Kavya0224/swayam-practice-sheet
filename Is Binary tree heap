@@ -1,0 +1,58 @@
+/*
+class Node {
+   public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    bool isHeap(Node* root) {
+         queue<Node*> q;     
+         q.push(root);
+     // Flag indicates if a node
+     //with missing children has been seen
+    bool flag = false;   
+  
+    while (!q.empty()) {
+        Node* temp = q.front();
+        q.pop();
+
+        // Check left child
+        if (temp->left) {
+            // If a node with missing child was seen before 
+            // or if left child is bigger than parent, the heap rules are broken
+            if (flag || temp->left->data > temp->data) {
+                return false;
+            }
+            q.push(temp->left);
+        } 
+        else {
+            // Left child is missing; set
+            //flag indicating last node encountered
+            flag = true;
+        }
+      
+        // Check right child
+        if (temp->right) {
+            // Same checks as left child
+            if (flag || temp->right->data > temp->data) {
+                return false;
+            }
+            q.push(temp->right);
+        }
+        else {
+            // Right child is missing; set flag
+            flag = true;
+        }
+    }
+    return true; 
+    }
+};
