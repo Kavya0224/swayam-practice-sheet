@@ -1,0 +1,14 @@
+class Solution {
+  public:
+    // Function to check if the k-th bit (0-indexed from right) of number n is set (i.e., is 1)
+    bool checkKthBit(int n, int k) {
+        // (1 << k): Creates a number with only the k-th bit set.
+        // Example: if k = 2 → (1 << 2) = 4 → binary: 00000100
+
+        // (n & (1 << k)): Performs bitwise AND.
+        // If the k-th bit in n is 1, the result will be non-zero.
+        // If the k-th bit is 0, the result will be 0.
+
+        return (n & (1 << k)) != 0;
+    }
+};
