@@ -1,0 +1,60 @@
+/*
+Definition for binary tree node:
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int x) {
+        data = x;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<int> bottomView(Node *root) {
+        if (!root) return {}; // If the tree is empty, return an empty vector
+
+        // Queue for BFS traversal: stores pairs of (node, horizontal distance)
+        queue<pair<Node*, int>> q;
+
+        // Map to store the **latest** node data at each horizontal distance
+        // Keys are horizontal distances (HD); values are node->data
+        // Using map to keep HDs sorted for correct left-to-right order
+        map<int, int> m;
+
+        // Start BFS with the root at horizontal distance 0
+        q.push({root, 0});
+
+        while (!q.empty()) {
+            Node* node = q.front().first;   // Current node
+            int hd = q.front().second;      // Horizontal distance from root
+            q.pop();
+
+            // For bottom view, we overwrite the data at each horizontal distance
+            // This ensures that the last (bottom-most) node at each HD is stored
+            m[hd] = node->data;
+
+            // Enqueue left child with horizontal distance -1
+            if (node->left) {
+                q.push({node->left, hd - 1});
+            }
+
+            // Enqueue right child with horizontal distance +1
+            if (node->right) {
+                q.push({node->right, hd + 1});
+            }
+        }
+
+        // Collect the bottom view nodes from left to right (ordered by HD)
+        vector<int> ans;
+        for (auto& it : m) {
+            ans.push_back(it.second);
+        }
+
+        return ans;
+    }
+};
