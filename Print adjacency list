@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    // Function to return the adjacency list for each vertex.
+    vector<vector<int>> printGraph(int V, vector<pair<int, int>>& edges) {
+        
+        // Create an adjacency list with V empty vectors (one for each vertex)
+        vector<vector<int>> adj(V);
+
+        // Traverse through all edges
+        for (auto &edge : edges) {
+            // Each edge connects two vertices u and v
+            int u = edge.first;
+            int v = edge.second;
+
+            // Since the graph is undirected, add v to u's list and u to v's list
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        // Optional: Sort each adjacency list for consistent and readable output
+        for (int i = 0; i < V; i++) {
+            sort(adj[i].begin(), adj[i].end());
+        }
+
+        // Return the constructed adjacency list
+        return adj;
+    }
+};
