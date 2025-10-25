@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    // Recursive helper function to perform DFS traversal
+    void helper(int u, vector<bool>& vis, vector<int>& ans, vector<vector<int>>& adj) {
+        ans.push_back(u);       // Add the current node to the result
+        vis[u] = true;          // Mark the current node as visited
+
+        // Traverse all neighbors of the current node
+        for (int v : adj[u]) {
+            if (!vis[v]) {      // If the neighbor hasn't been visited yet
+                helper(v, vis, ans, adj);   // Recur for the neighbor
+            }
+        }
+    }
+
+    // Function to return Depth First Traversal (DFS) of the given graph
+    vector<int> dfs(vector<vector<int>>& adj) {
+        vector<int> ans;                     // To store DFS traversal result
+        int V = adj.size();                  // Number of vertices in the graph
+        vector<bool> vis(V, false);          // Visited array initialized to false
+
+        // Start DFS from node 0 (as per problem statement)
+        helper(0, vis, ans, adj);
+
+        return ans;                          // Return DFS traversal result
+    }
+};
+
