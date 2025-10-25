@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    // Function to return Breadth First Traversal of given graph.
+    vector<int> bfs(vector<vector<int>> &adj) {
+        int V = adj.size();              // Number of vertices
+        vector<bool> vis(V, false);      // Visited array initialized to false
+        vector<int> ans;                 // To store BFS traversal
+        queue<int> q;                    // Queue for BFS
+
+        // Start BFS from node 0 (as per problem statement)
+        q.push(0);
+        vis[0] = true;                   // Mark starting node as visited
+
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            ans.push_back(u);             // Add current node to BFS result
+
+            // Traverse all adjacent vertices of current node
+            for (int v : adj[u]) {
+                if (!vis[v]) {            // If not visited, enqueue it
+                    vis[v] = true;        // Mark as visited
+                    q.push(v);
+                }
+            }
+        }
+
+        return ans;                       // Return BFS traversal
+    }
+};
