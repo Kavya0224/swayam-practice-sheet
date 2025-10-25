@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        int n = wt.size();
+        
+        // dp[i][w] will store the maximum value for the first i items
+        // and knapsack capacity w
+        vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+
+        // Build the dp table iteratively
+        for (int i = 1; i <= n; i++) {
+            for (int w = 1; w <= W; w++) {
+                if (wt[i - 1] <= w) {
+                    // Either include the current item or exclude it
+                    dp[i][w] = max(
+                        val[i - 1] + dp[i - 1][w - wt[i - 1]], // include item
+                        dp[i - 1][w]                           // exclude item
+                    );
+                } else {
+                    // Current item's weight exceeds the current capacity
+                    dp[i][w] = dp[i - 1][w];
+                }
+            }
+        }
+
+        // The bottom-right cell will have the answer
+        return dp[n][W];
+        
+    }
+};
