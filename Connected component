@@ -1,0 +1,45 @@
+
+class Solution {
+public:
+    // Recursive DFS helper function
+    void helper(int u, vector<bool>& vis, vector<int>& ans, vector<vector<int>>& adj) {
+        ans.push_back(u);   // Add the current node to the traversal list
+        vis[u] = true;      // Mark the current node as visited
+
+        // Visit all neighbors of node u
+        for (int v : adj[u]) {
+            if (!vis[v]) {
+                helper(v, vis, ans, adj);   // Recur for unvisited neighbors
+            }
+        }
+    }
+
+    // Function to count connected components in an undirected graph
+    int countComponents(int V, vector<vector<int>>& edges) {
+        // Step 1: Build adjacency list from the edge list
+        vector<vector<int>> adj(V);
+        for (auto &e : edges) {
+            int u = e[0];
+            int v = e[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);  // because the graph is undirected
+        }
+
+        // Step 2: Create visited array
+        vector<bool> vis(V, false);
+
+        int ct = 0;           // To count connected components
+        vector<int> ans;      // Optional: to store DFS traversal order
+
+        // Step 3: For each unvisited vertex, run DFS
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                ct++;                // Found a new connected component
+                helper(i, vis, ans, adj); // Explore it fully
+            }
+        }
+
+        // Step 4: Return number of connected components
+        return ct;
+    }
+};
