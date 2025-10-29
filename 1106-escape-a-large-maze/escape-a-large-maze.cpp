@@ -1,3 +1,32 @@
+// class Solution {
+// public:
+// void helper(vector<vector<bool>>& vis,int tr,int tc,int sr,int sc,bool& flag){
+//     if(sr<0 || sc<0 || sr>=1000000 || sc>=1000000 || vis[sr][sc]==true){
+//         return;
+//     }
+//     if(sr==tr && sc==tc){
+//         flag=true;
+//         return;
+//     }
+//     vis[sr][sc]=true;
+//     helper(vis,tr,tc,sr+1,sc,flag);
+//     helper(vis,tr,tc,sr-1,sc,flag);
+//     helper(vis,tr,tc,sr,sc+1,flag);
+//     helper(vis,tr,tc,sr,sc-1,flag);
+//     vis[sr][sc]=false;
+// }
+//     bool isEscapePossible(vector<vector<int>>& blocked, vector<int>& source, vector<int>& target) {
+//         vector<vector<bool>> vis(1000000,vector<bool>(1000000,false));
+//         for(int i=0;i<blocked.size();i++){
+//             int r=blocked[i][0];
+//             int c=blocked[i][1];
+//             vis[r][c]=true;
+//         }
+//         bool flag=false;
+//         helper(vis,target[0],target[1],source[0],source[1],flag);
+//         return flag;
+//     }
+// };
 class Solution {
 public:
     // Max number of cells that can be enclosed by 200 blocked cells
