@@ -1,0 +1,52 @@
+class Solution {
+public:
+    // Helper function for recursive backtracking
+    void helper(vector<vector<int>>& maze, int r, int c, string path,
+                vector<string>& ans, vector<vector<bool>>& vis) {
+        int n = maze.size();
+
+        // Base case: Out of bounds, blocked cell, or already visited
+        if (r < 0 || c < 0 || r >= n || c >= n || maze[r][c] == 0 || vis[r][c])
+            return;
+
+        // If destination (bottom-right corner) is reached
+        if (r == n - 1 && c == n - 1) {
+            ans.push_back(path); // store the valid path
+            return;
+        }
+
+        // Mark the current cell as visited
+        vis[r][c] = true;
+
+        // Explore all 4 possible directions in the order: Down, Left, Right, Up
+        // This order ensures lexicographically sorted output
+        helper(maze, r + 1, c, path + 'D', ans, vis); // Move Down
+        helper(maze, r, c - 1, path + 'L', ans, vis); // Move Left
+        helper(maze, r, c + 1, path + 'R', ans, vis); // Move Right
+        helper(maze, r - 1, c, path + 'U', ans, vis); // Move Up
+
+        // Backtrack: unmark this cell before returning
+        vis[r][c] = false;
+    }
+
+    // Main function
+    vector<string> ratInMaze(vector<vector<int>>& maze) {
+        vector<string> ans;  // to store all possible paths
+        int n = maze.size();
+
+        // Edge cases: empty maze or start/end blocked
+        if (n == 0 || maze[0][0] == 0 || maze[n - 1][n - 1] == 0)
+            return ans;
+
+        // Visited matrix to avoid revisiting the same cell
+        vector<vector<bool>> vis(n, vector<bool>(n, false));
+
+        // Start the backtracking from top-left corner (0,0)
+        helper(maze, 0, 0, "", ans, vis);
+
+        // Sort the paths to get lexicographically smallest order (if required)
+        sort(ans.begin(), ans.end());
+
+        return ans;
+    }
+};
