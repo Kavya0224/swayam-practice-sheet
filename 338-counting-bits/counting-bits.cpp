@@ -1,21 +1,24 @@
 class Solution {
 public:
+    void helper(int n, vector<int>& ans, int i) {
+        if(i > n) return; // compute up to n
+
+        if(i % 2 == 0){
+            ans.push_back(ans[i / 2]);
+        } else {
+            ans.push_back(ans[i / 2] + 1);
+        }
+
+        helper(n, ans, i + 1);
+    }
+
     vector<int> countBits(int n) {
-        
-        // n+1 as we are going to count from 0 to n
-        vector<int> t(n+1);
-        
-        // t[0] will be 0 beacuse 0 has count of set bit is 0;
-        t[0] = 0;
-        
-        // we can compute current set bit count using previous count
-        // as x/2 in O(1) time
-        
-        // i%2 will be 0 for even number ans 1 for odd number
-        
-        for(int i = 1; i<=n; ++i)
-            t[i] = t[i/2] + i%2;
-        
-        return t;
+        vector<int> ans;
+        ans.push_back(0); // bits for 0
+
+        if(n == 0) return ans;
+
+        helper(n, ans, 1); // start from 1
+        return ans;
     }
 };
