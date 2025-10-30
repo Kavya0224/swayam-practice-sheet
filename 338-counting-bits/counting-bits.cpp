@@ -1,24 +1,25 @@
+
 class Solution {
 public:
-    void helper(int n, vector<int>& ans, int i) {
-        if(i > n) return; // compute up to n
+    // Helper function with memoization
+    int helper(int i, vector<int>& memo) {
+        if (i == 0) return 0; // Base case
+        if (memo[i] != -1) return memo[i]; // Already computed
 
-        if(i % 2 == 0){
-            ans.push_back(ans[i / 2]);
-        } else {
-            ans.push_back(ans[i / 2] + 1);
-        }
-
-        helper(n, ans, i + 1);
+        // Compute number of bits: bits[i] = bits[i/2] + (i % 2)
+        memo[i] = helper(i / 2, memo) + (i % 2);
+        return memo[i];
     }
 
     vector<int> countBits(int n) {
-        vector<int> ans;
-        ans.push_back(0); // bits for 0
+        vector<int> memo(n + 1, -1); // Initialize memoization array with -1
+        vector<int> ans(n + 1);
 
-        if(n == 0) return ans;
+        for (int i = 0; i <= n; i++) {
+            ans[i] = helper(i, memo); // Compute each number using memo
+        }
 
-        helper(n, ans, 1); // start from 1
         return ans;
     }
 };
+
