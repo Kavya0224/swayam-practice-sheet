@@ -1,0 +1,36 @@
+class Solution {
+  public:
+    int maxGold(vector<vector<int>>& mat) {
+        int n = mat.size();       // number of rows in the mine
+        int m = mat[0].size();    // number of columns in the mine
+
+        // dp[i][j] will store the maximum gold that can be collected starting from cell (i, j)
+        vector<vector<int>> dp(n, vector<int>(m, 0));
+
+        // Fill the DP table starting from the last column and moving to the first
+        for (int col = m - 1; col >= 0; col--) {
+            for (int row = 0; row < n; row++) {
+                
+                // Gold collected if moving right
+                int right = (col == m - 1) ? 0 : dp[row][col + 1];
+                
+                // Gold collected if moving diagonally right-up
+                int right_up = (row == 0 || col == m - 1) ? 0 : dp[row - 1][col + 1];
+                
+                // Gold collected if moving diagonally right-down
+                int right_down = (row == n - 1 || col == m - 1) ? 0 : dp[row + 1][col + 1];
+
+                // Maximum gold from current cell = gold in this cell + max of possible moves
+                dp[row][col] = mat[row][col] + max({right, right_up, right_down});
+            }
+        }
+
+        // The miner can start from any row in the first column
+        int maxGold = 0;
+        for (int row = 0; row < n; row++) {
+            maxGold = max(maxGold, dp[row][0]);
+        }
+
+        return maxGold;  // Return the maximum gold that can be collected
+    }
+};
