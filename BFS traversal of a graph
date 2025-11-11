@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    vector<int> bfs(vector<vector<int>> &adj) {
+        // code here
+         queue<int> q;
+         q.push(0);
+         vector<bool> vis(adj.size(),false);
+         vector<int> ans;
+         vis[0]=true;
+         while(q.size()>0){
+             int u=q.front();
+             q.pop();
+             ans.push_back(u);
+             for(int v:adj[u]){
+                 if(!vis[v]){
+                     q.push(v);
+                     vis[v]=true;
+                 }
+             }
+         }
+         return ans;
+    }
+};
