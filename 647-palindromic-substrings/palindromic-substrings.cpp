@@ -1,24 +1,43 @@
 class Solution {
 public:
-bool isPal(string s,int i,int j){
-    if(i>=j) return true;
-    while(i<j){
-        if(s[i]!=s[j]) return false;
-        i++;
-        j--;
-    }
-    return true;
-}
     int countSubstrings(string s) {
-        int ct=0;
-        for(int i=0;i<s.length();i++){
-            ct++;
-        }
-        for(int i=0;i<s.length()-1;i++){
-            for(int j=i+1;j<s.length();j++){
-                if(isPal(s,i,j)) ct++;
+        int n = s.length();
+        
+        // dp[i][j] = true if substring s[i..j] is a palindrome
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        
+        int count = 0; // to count all palindromic substrings
+        
+        // Fill the DP table from bottom to top
+        // because dp[i][j] depends on dp[i+1][j-1]
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = i; j < n; j++) {
+
+                // Case 1: Single character (always a palindrome)
+                if (i == j) {
+                    dp[i][j] = true;
+                }
+                // Case 2: Two consecutive characters
+                // s[i..j] is palindrome if both characters are same
+                else if (j == i + 1) {
+                    dp[i][j] = (s[i] == s[j]);
+                }
+                // Case 3: More than two characters
+                // s[i..j] is palindrome if:
+                //   1. The first and last characters match
+                //   2. The substring inside (s[i+1..j-1]) is also a palindrome
+                else {
+                    dp[i][j] = (s[i] == s[j]) && dp[i + 1][j - 1];
+                }
+
+                // If s[i..j] is a palindrome, increment count
+                if (dp[i][j]) {
+                    count++;
+                }
             }
         }
-        return ct;
+
+        // Return total number of palindromic substrings
+        return count;
     }
 };
