@@ -1,40 +1,30 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        // Pointers start from the second element (left)
-        // and the second-to-last element (right).
-        int l = 1, r = height.size() - 2;
+        int n = height.size();
+        if (n <= 2) return 0;
 
-        // Track the maximum height seen so far from each side.
-        int left_max = height[l - 1];
-        int right_max = height[r + 1];
+        vector<int> left_max(n);
+        vector<int> right_max(n);
 
-        int result = 0;
-
-        while (l <= r) {
-
-            // The side with the smaller max determines the water level.
-            if (left_max <= right_max) {
-
-                // Water can be trapped only if left_max is higher.
-                result += max(0, left_max - height[l]);
-
-                // Update left_max if current bar is higher.
-                left_max = max(left_max, height[l]);
-
-                l++; // Move pointer inward.
-            }
-            else {
-
-                // Same logic for the right side.
-                result += max(0, right_max - height[r]);
-
-                right_max = max(right_max, height[r]);
-
-                r--; // Move pointer inward.
-            }
+        // Build left_max array
+        left_max[0] = height[0];
+        for (int i = 1; i < n; i++) {
+            left_max[i] = max(left_max[i - 1], height[i]);
         }
 
-        return result;
+        // Build right_max array
+        right_max[n - 1] = height[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            right_max[i] = max(right_max[i + 1], height[i]);
+        }
+
+        // Calculate trapped water
+        int water = 0;
+        for (int i = 0; i < n; i++) {
+            water += min(left_max[i], right_max[i]) - height[i];
+        }
+
+        return water;
     }
 };
