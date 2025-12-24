@@ -1,47 +1,48 @@
 class Solution {
 public:
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        int m = obstacleGrid.size();
-        int n = obstacleGrid[0].size();
+        int n = obstacleGrid.size();
+        if (n == 0) return 0;
+        int m = obstacleGrid[0].size();
+        if (m == 0) return 0;
 
-        // If the starting cell or ending cell has an obstacle → no path possible
-        if (obstacleGrid[0][0] == 1 || obstacleGrid[m - 1][n - 1] == 1)
+        // If start or end is blocked, no path
+        if (obstacleGrid[0][0] == 1 || obstacleGrid[n-1][m-1] == 1)
             return 0;
 
-        // Create DP table initialized with 0s
-        vector<vector<int>> dp(m, vector<int>(n, 0));
+        // dp[i][j] = number of ways to reach cell (i,j)
+        vector<vector<long long>> dp(n, vector<long long>(m, 0));
 
-        // Base case: starting cell
+        // Starting cell
         dp[0][0] = 1;
 
-        // Fill first column
-        for (int i = 1; i < m; i++) {
-            // If no obstacle and the cell above has a valid path
-            if (obstacleGrid[i][0] == 0 && dp[i - 1][0] == 1)
+        // First column: only downward moves from above possible
+        for (int i = 1; i < n; i++) {
+            if (obstacleGrid[i][0] == 0 && dp[i-1][0] > 0)
                 dp[i][0] = 1;
             else
-                dp[i][0] = 0;  // blocked
+                dp[i][0] = 0;
         }
 
-        // Fill first row
-        for (int j = 1; j < n; j++) {
-            // If no obstacle and the cell on the left has a valid path
-            if (obstacleGrid[0][j] == 0 && dp[0][j - 1] == 1)
+        // First row: only rightward moves from left possible
+        for (int j = 1; j < m; j++) {
+            if (obstacleGrid[0][j] == 0 && dp[0][j-1] > 0)
                 dp[0][j] = 1;
             else
-                dp[0][j] = 0;  // blocked
+                dp[0][j] = 0;
         }
 
-        // Fill the rest of the grid
-        for (int i = 1; i < m; i++) {
-            for (int j = 1; j < n; j++) {
-                if (obstacleGrid[i][j] == 1)
-                    dp[i][j] = 0; // obstacle cell → no path
-                else
-                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        // Fill the rest of dp table
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                if (obstacleGrid[i][j] == 0) {
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1];
+                } else {
+                    dp[i][j] = 0;  // obstacle blocks path
+                }
             }
         }
 
-        return dp[m - 1][n - 1];
+        return (int) dp[n-1][m-1];
     }
 };
