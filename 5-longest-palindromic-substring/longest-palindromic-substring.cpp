@@ -1,42 +1,50 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        // If the string has 0 or 1 character, it's already a palindrome
-        if (s.length() <= 1) {
-            return s;
+        if (s.empty()) {
+            return "";
         }
-        
-        int max_len = 1;  // Length of the longest palindrome found
-        int start = 0;    // Starting index of the longest palindrome
-        int end = 0;      // Ending index of the longest palindrome
 
-        // dp[i][j] will be true if the substring s[i...j] is a palindrome
-        vector<vector<bool>> dp(s.length(), vector<bool>(s.length(), false));
-        
-        // Iterate through all possible end indices (i)
-        for (int i = 0; i < s.length(); ++i) {
-            dp[i][i] = true;  // Every single character is a palindrome by itself
+        int start = 0;
+        int end = 0;
 
-            // Check all possible start indices (j) before i
-            for (int j = 0; j < i; ++j) {
-                // A substring s[j...i] is a palindrome if:
-                // 1. The characters at both ends match (s[j] == s[i]), and
-                // 2. The inside substring s[j+1...i-1] is a palindrome (dp[j+1][i-1] == true),
-                //    OR the substring length is 2 or 3 (i - j <= 2)
-                if (s[j] == s[i] && (i - j <= 2 || dp[j + 1][i - 1])) {
-                    dp[j][i] = true;  // Mark this substring as a palindrome
+        for (int i = 0; i < s.length(); i++) {
+            int odd = expandAroundCenter(s, i, i);
+            int even = expandAroundCenter(s, i, i + 1);
+            int max_len = max(odd, even);
 
-                    // Update the longest palindrome if the current one is longer
-                    if (i - j + 1 > max_len) {
-                        max_len = i - j + 1;
-                        start = j;
-                        end = i;
-                    }
-                }
+            if (max_len > end - start) {
+                start = i - (max_len - 1) / 2;
+                end = i + max_len / 2;
             }
         }
-        
-        // Return the longest palindromic substring found
-        return s.substr(start, end - start + 1);
+
+        return s.substr(start, end - start + 1);        
     }
+
+private:
+    int expandAroundCenter(string s, int left, int right) {
+        while (left >= 0 && right < s.length() && s[left] == s[right]) {
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }    
 };
+// class Solution {
+// public:
+//     string longestPalindrome(string s) {
+//         if (s == string(s.rbegin(), s.rend())) {
+//             return s;
+//         }
+
+//         string left = longestPalindrome(s.substr(1));
+//         string right = longestPalindrome(s.substr(0, s.size() - 1));
+
+//         if (left.length() > right.length()) {
+//             return left;
+//         } else {
+//             return right;
+//         }
+//     }
+// };
