@@ -35,4 +35,3 @@ public:
         return t[n][amount];
     }
 };
-
